@@ -2,15 +2,13 @@ package mintychochip.shuriken.core.listener;
 
 import java.util.Collection;
 import mintychochip.genesis.container.Grasper;
-import mintychochip.shuriken.core.container.ActionSource;
-import mintychochip.shuriken.core.container.Damage;
+import mintychochip.shuriken.core.container.handlers.ActionSource;
+import mintychochip.shuriken.core.container.handlers.holder.Damage;
 import mintychochip.shuriken.core.container.DamageType;
+import mintychochip.shuriken.core.container.gear.AbstractGear.MeleeWeapon;
 import mintychochip.shuriken.core.container.gear.GearType;
-import mintychochip.shuriken.core.container.gear.weapons.MeleeWeapon;
-import mintychochip.shuriken.core.util.Constants;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

@@ -1,6 +1,6 @@
 package mintychochip.shuriken.core.container.action;
 
-import mintychochip.shuriken.core.container.IAction;
+import mintychochip.shuriken.core.container.handlers.IAction;
 import mintychochip.shuriken.core.events.ActionEvent;
 import org.bukkit.Location;
 import org.bukkit.Particle;

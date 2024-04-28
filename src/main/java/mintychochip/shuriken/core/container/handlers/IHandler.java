@@ -1,5 +1,6 @@
-package mintychochip.shuriken.core.container;
+package mintychochip.shuriken.core.container.handlers;
+
 public interface IHandler<T extends IHandler<T>> {
-  IHandler<T> addAction(IAction action);
+  T addAction(IAction action);
   void apply(ActionSource source);
 }

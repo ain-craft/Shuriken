@@ -1,7 +1,10 @@
-package mintychochip.shuriken.core.container;
+package mintychochip.shuriken.core.container.handlers.holder;
 
 import java.util.ArrayList;
 import java.util.List;
+import mintychochip.shuriken.core.container.DamageType;
+import mintychochip.shuriken.core.container.handlers.IHandler;
+import mintychochip.shuriken.core.container.handlers.IHandlerHolder;
 import mintychochip.shuriken.core.registry.Reg;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;

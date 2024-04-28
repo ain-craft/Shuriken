@@ -1,7 +1,7 @@
 package mintychochip.shuriken.core.container.action;
 
-import mintychochip.shuriken.core.container.ActionSource;
-import mintychochip.shuriken.core.container.IAction;
+import mintychochip.shuriken.core.container.handlers.ActionSource;
+import mintychochip.shuriken.core.container.handlers.IAction;
 import mintychochip.shuriken.core.events.ActionEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

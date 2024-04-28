@@ -1,11 +1,8 @@
 package mintychochip.shuriken.core.events;
 
-import javax.swing.Action;
 import mintychochip.genesis.events.AbstractEvent;
-import mintychochip.shuriken.core.container.ActionSource;
-import mintychochip.shuriken.core.container.IAction;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+import mintychochip.shuriken.core.container.handlers.ActionSource;
+import mintychochip.shuriken.core.container.handlers.IAction;
 import org.bukkit.event.Cancellable;
 
 public class ActionEvent extends AbstractEvent implements Cancellable {

@@ -4,8 +4,11 @@ import mintychochip.genesis.commands.abstraction.GenericCommandObject;
 import mintychochip.genesis.commands.abstraction.SubCommand;
 import mintychochip.genesis.container.Grasper;
 import mintychochip.shuriken.core.container.DamageType;
+import mintychochip.shuriken.core.container.gear.AbstractGear;
+import mintychochip.shuriken.core.container.gear.AbstractGear.Factory;
+import mintychochip.shuriken.core.container.gear.AbstractGear.MeleeWeapon;
 import mintychochip.shuriken.core.container.gear.GearType;
-import mintychochip.shuriken.core.container.gear.weapons.MeleeWeapon;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -32,11 +35,12 @@ public class embed extends GenericCommandObject implements SubCommand {
     ItemMeta itemMeta = item.getItemMeta();
     MeleeWeapon grab = weaponGrasper.grab(itemMeta, GearType.MELEE_WEAPON.getKey(), MeleeWeapon.class);
     if (grab == null) {
-      grab = new MeleeWeapon(GearType.MELEE_WEAPON,500);
+      grab = (MeleeWeapon) Factory.INSTANCE.create(GearType.MELEE_WEAPON);
     }
     grab.addTypePercent(DamageType.find(strings[depth - 1]), 0.2);
     grab.setMaxRange(15);
     grab.setMinRange(-1);
+    Bukkit.broadcastMessage(grab.getScore() + "");
     weaponGrasper.toss(itemMeta, grab);
     item.setItemMeta(itemMeta);
     return false;

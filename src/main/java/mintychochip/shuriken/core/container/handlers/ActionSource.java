@@ -1,4 +1,4 @@
-package mintychochip.shuriken.core.container;
+package mintychochip.shuriken.core.container.handlers;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity;
