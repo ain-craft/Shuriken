@@ -35,6 +35,8 @@ public class embed extends GenericCommandObject implements SubCommand {
       grab = new MeleeWeapon(GearType.MELEE_WEAPON,500);
     }
     grab.addTypePercent(DamageType.find(strings[depth - 1]), 0.2);
+    grab.setMaxRange(15);
+    grab.setMinRange(-1);
     weaponGrasper.toss(itemMeta, grab);
     item.setItemMeta(itemMeta);
     return false;

@@ -8,6 +8,8 @@ import mintychochip.shuriken.core.container.DamageType;
 import mintychochip.shuriken.core.container.gear.GearType;
 import mintychochip.shuriken.core.container.gear.weapons.MeleeWeapon;
 import mintychochip.shuriken.core.util.Constants;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -24,7 +26,7 @@ import org.bukkit.util.RayTraceResult;
 public class DamageListener implements Listener {
 
   @EventHandler
-  private void onPlayerAttack(final PlayerInteractEvent event) {
+  private void onMeleeWeaponAttack(final PlayerInteractEvent event) {
     Action action = event.getAction();
     if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
       return;
@@ -40,7 +42,7 @@ public class DamageListener implements Listener {
     if (grab == null) {
       return;
     }
-    Entity fetch = this.fetch(player);
+    Entity fetch = this.fetch(player, grab.getMinRange(),grab.getMaxRange());
     if (fetch == null) {
       return;
     }
@@ -61,15 +63,24 @@ public class DamageListener implements Listener {
     return main.getType().isAir() ? off : main;
   }
 
-  private Entity fetch(Player player) {
+  private Entity fetch(Player player, double minRange, double maxRange) {
     World world = player.getWorld();
-    RayTraceResult rayTraceResult = world.rayTraceEntities(player.getEyeLocation(),
-        player.getEyeLocation().getDirection(), 10, 0.7, entity ->
+    Location eyeLocation = player.getEyeLocation();
+    RayTraceResult rayTraceResult = world.rayTraceEntities(eyeLocation,
+        player.getEyeLocation().getDirection(), maxRange, 0.7, entity ->
             !entity.equals(player)
     );
-    if (rayTraceResult == null || rayTraceResult.getHitEntity().equals(player)) {
+    if(rayTraceResult == null) {
       return null;
     }
-    return rayTraceResult.getHitEntity();
+    Entity hitEntity = rayTraceResult.getHitEntity();
+    if(hitEntity == null) {
+      return null;
+    }
+    Bukkit.broadcastMessage(minRange + "");
+    if(hitEntity.getLocation().distance(eyeLocation) <= minRange && minRange > 0) {
+      return null;
+    }
+    return hitEntity;
   }
 }

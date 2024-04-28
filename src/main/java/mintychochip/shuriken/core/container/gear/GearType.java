@@ -6,7 +6,8 @@ import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
 public enum GearType implements Keyed {
-  MELEE_WEAPON("melee_weapon");
+  MELEE_WEAPON("melee_weapon"),
+  BOW("bow");
 
   private final String namespace;
 
@@ -17,7 +18,6 @@ public enum GearType implements Keyed {
   public String getNamespace() {
     return namespace;
   }
-
   @NotNull
   @Override
   public NamespacedKey getKey() {
