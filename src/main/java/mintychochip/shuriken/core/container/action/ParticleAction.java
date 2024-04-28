@@ -17,7 +17,10 @@ public class ParticleAction implements IAction {
 
   @Override
   public void action(ActionEvent event) {
-    Location damageLocation = event.getSource().getDamageLocation();
-    damageLocation.getWorld().spawnParticle(particle,damageLocation,count,0.25,0.25,0.25,0);
+    Location location = event.getSource().getDamageLocation();
+    if(!event.getSource().isIndirect()) {
+      location = event.getSource().getDirectEntity().getLocation();
+    }
+    location.getWorld().spawnParticle(particle,location,count,0.25,0.25,0.25,0);
   }
 }

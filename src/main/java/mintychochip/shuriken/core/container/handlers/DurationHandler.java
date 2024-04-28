@@ -48,7 +48,7 @@ public final class DurationHandler implements IHandler<DurationHandler> {
     actions.forEach(action -> {
       new DeathTimer(Bukkit.getScheduler()
           .runTaskTimer(Shuriken.getInstance(), new ActionEventCaller(action, source), delay,
-              interval), 30, source.getDirectEntity(), Entity::isDead).start();
+              interval), duration, source.getDirectEntity(), Entity::isDead).start();
     });
   }
 
@@ -57,6 +57,7 @@ public final class DurationHandler implements IHandler<DurationHandler> {
     private final Predicate<Entity> filter;
 
     private final Entity entity;
+    private final Object lock = new Object(); // Object for synchronization
 
     public DeathTimer(BukkitTask task, double duration, Entity entity, Predicate<Entity> filter) {
       super(task, duration);
@@ -66,34 +67,28 @@ public final class DurationHandler implements IHandler<DurationHandler> {
 
     @Override
     public void start() {
-      ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-      ScheduledFuture<?> scheduledFuture = scheduledExecutorService.scheduleAtFixedRate(() -> {
-        if (filter.test(entity)) {
-          scheduledExecutorService.shutdown();
-          this.cancel();
+      ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+
+      // Schedule task to check the filter condition periodically
+      ScheduledFuture<?> filterFuture = executor.scheduleAtFixedRate(() -> {
+        synchronized (lock) {
+          if (filter.test(entity)) {
+            task.cancel();
+            executor.shutdown();
+          }
         }
       }, 0, 500, TimeUnit.MILLISECONDS);
 
-      ScheduledFuture<?> schedule = scheduledExecutorService.schedule(() -> {
-        scheduledFuture.cancel(true);
-        this.cancel();
-      }, (long) (duration * 1000), TimeUnit.MILLISECONDS);
-      try {
-        // Wait for the executor to terminate
-        scheduledExecutorService.awaitTermination(10, TimeUnit.SECONDS);
-      } catch (InterruptedException e) {
-        System.out.println("Exception occurred: " + e.getMessage());
-        // Cancel the timeout task if it hasn't occurred yet
-        scheduledFuture.cancel(true);
-        // Cancel the predicate checking task if it hasn't completed yet
-        schedule.cancel(true);
-      } finally {
-        scheduledExecutorService.shutdown();
-      }
-    }
-
-    private void cancel() {
-      task.cancel();
+      // Schedule task to cancel the main task after the specified duration
+      ScheduledFuture<?> cancelFuture = executor.schedule(() -> {
+        synchronized (lock) {
+          if (task != null && !task.isCancelled()) {
+            task.cancel();
+            filterFuture.cancel(true);
+            executor.shutdown();
+          }
+        }
+      }, (long) (1000 * duration), TimeUnit.MILLISECONDS);
     }
   }
 

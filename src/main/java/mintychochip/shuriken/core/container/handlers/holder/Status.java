@@ -1,6 +1,7 @@
 package mintychochip.shuriken.core.container.handlers.holder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import mintychochip.shuriken.Shuriken;
 import mintychochip.shuriken.core.container.DamageType;
@@ -24,6 +25,15 @@ public class Status implements Keyed, IHandlerHolder<Status> {
   public Status addHandler(IHandler<? extends IHandler<?>> handler) {
     handlerList.add(handler);
     return this;
+  }
+
+  @Override
+  public Collection<IHandler<? extends IHandler<?>>> getHandlers() {
+    return handlerList;
+  }
+
+  public List<IHandler<? extends IHandler<?>>> getHandlerList() {
+    return handlerList;
   }
 
   public DamageType getDamageType() {

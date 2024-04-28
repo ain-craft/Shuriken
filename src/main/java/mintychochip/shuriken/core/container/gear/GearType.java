@@ -9,8 +9,6 @@ import org.jetbrains.annotations.NotNull;
 public enum GearType implements Keyed {
   MELEE_WEAPON("melee_weapon"),
   BOW("bow");
-
-
   private final String namespace;
 
   GearType(String namespace) {

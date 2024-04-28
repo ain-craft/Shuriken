@@ -1,8 +1,12 @@
 package mintychochip.shuriken;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import javax.xml.datatype.Duration;
 import mintychochip.genesis.commands.abstraction.GenericMainCommandManager;
-import mintychochip.shuriken.core.commands.embed;
+import mintychochip.shuriken.core.commands.Commands;
+import mintychochip.shuriken.core.commands.Commands.embed;
+import mintychochip.shuriken.core.commands.Commands.status;
 import mintychochip.shuriken.core.container.handlers.DurationHandler;
 import mintychochip.shuriken.core.container.handlers.holder.Damage;
 import mintychochip.shuriken.core.container.DamageType;
@@ -40,12 +44,14 @@ public final class Shuriken extends JavaPlugin {
     }
     if (Reg.STATUS instanceof SimpleRegistry<Status> registry) {
       registry.add(new Status(DamageType.CHILLING, "chillproc1", "asdasd").addHandler(
-          new DurationHandler(5, 5, 20).addAction(new DamageAction(1))));
+          new DurationHandler(5, 5, 0).addAction(new DamageAction(1)).addAction(new ParticleAction(Particle.SNOWFLAKE,10))));
     }
     Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
     GenericMainCommandManager genericMainCommandManager = new GenericMainCommandManager("embed",
         "asd");
     genericMainCommandManager.addSubCommand(new embed("embed", "asdad"));
+    genericMainCommandManager.addSubCommand(new status("status","asd", Reg.STATUS.stream().map(status -> status.getNamespace()).collect(
+        Collectors.toSet())));
     getCommand("embed").setExecutor(genericMainCommandManager);
   }
 

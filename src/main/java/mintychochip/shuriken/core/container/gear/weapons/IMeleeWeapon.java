@@ -12,6 +12,4 @@ public interface IMeleeWeapon extends IWeapon {
   void setMaxRange(double range);
 
   void setMinRange(double range);
-
-  Collection<DamageType> getDamageTypes();
 }
