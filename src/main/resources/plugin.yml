@@ -1,0 +1,9 @@
+name: Shuriken
+version: '${project.version}'
+main: mintychochip.shuriken.Shuriken
+depend:
+  - Genesis
+api-version: '1.20'
+commands:
+  embed:
+    description: asdasddsa
